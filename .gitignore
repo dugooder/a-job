@@ -1,3 +1,13 @@
+# Application Specific
+Build
+node_modules
+packages
+.vs
+*.csproj.user
+nuget.exe
+bin
+obj
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
