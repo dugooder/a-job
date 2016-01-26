@@ -1,0 +1,25 @@
+{
+  "name": "ajob",
+  "version": "1.0.0",
+  "title": "ajob Template",
+  "description": "Template solution for making a schedule job application for a domain",
+  "company": "Chaotic Good",
+  "product": "ajob template project",
+  "copyright": "None",
+  "license": "None",
+  "trademark": "Chaotic Good",
+  "culture": "",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "fs": "0.0.2",
+    "gulp": "^3.9.0",
+    "gulp-dotnet-assembly-info": "^0.1.11",
+    "gulp-flatten": "^0.2.0",
+    "gulp-msbuild": "^0.2.19",
+    "gulp-run-sequence": "^0.3.2",
+    "gulp-shell": "^0.5.2",
+    "gulp-xunit-runner": "^0.1.1",
+    "request": "^2.67.0",
+    "yargs": "^3.32.0"
+  }
+}

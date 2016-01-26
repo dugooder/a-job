@@ -1,0 +1,28 @@
+﻿<job>
+  <!-- 
+  Example file to load a job's commands.  
+  
+  The file name "Job1" is an argument to the application.
+  
+  The `name` attribute, "HW", is the how the command is identified 
+  in the log.
+  
+  The `type` attribute, "Hello",  is the name attribute of the 
+  of the command in a *_ninject.xml file.
+  
+  The contents of the `step` element can be any valid XML.  It is passed 
+  to the command via the Configuration property.
+  -->
+  <step name="HW" type="HelloWorld">
+    <name>Bill</name>
+  </step>
+  <step name="HW2" type="HelloWorld">
+    <name>Laura</name>
+  </step>
+  <step name="HW3" type="HelloWorld">
+    <name>Oliver</name>
+  </step>
+  <step name="HW3" type="HelloWorld">
+    <name>Olivia</name>
+  </step>
+</job>
