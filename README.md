@@ -4,7 +4,7 @@
 Use this application as a template for creating a job type application.  Use a scheduler to execute the application.
 
 ##Features 
-It uses a plugin type approach.  Commands (plug-ins) are tied together with a job XML configuration file. 
+Commands (plug-ins) are tied together with a job XML configuration file. 
 
 The application uses the below components. 
 
@@ -17,16 +17,16 @@ The application uses the below components.
 ##Solution
 
 ###Projects
-* `supervisor` - given the name job configuration XML file (no extension) it is the 'runner'
+* `supervisor` - is the 'runner.  Given the name job configuration XML file (no extension) it executes all the commands in confgiuration file.
 
 * `common` - common classes used by the `supervisor` and the command type projects
 
-* `commands` - an example of a command.  Each command should have its own proejct and test project.
+* `commands` - an example of a command.  ach command should have its own proejct and test project.  A command project must contain class implementing ICommand and a Ninject module loading that class.
 
 * `common.tests` -  unit tests for the common project
 
 ###Files
-* Job1_job.xml in the `supervisor` project is an example of a job's configuration file.
+* Job1_job.xml in the `supervisor` project is an example of a job's configuration file.  Job configuration file must end with  '_job.xml'.
 
 ##Build Setup
 1. Download and install Nodejs.
