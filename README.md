@@ -32,13 +32,8 @@ The application uses the below components.
 
 ##Build Setup
 1. Download and install Nodejs.
-2. Download the source.
-3. In the source directory use npm to install the build system components. 
-```bat 
-npm install
-```
-4. To build the application.  The build must be run from the Visual Studio Command Prompt (2015 Community version was used). 
-```bat
-gulp build 
-```
-Explore the gulpfile.js for other gulp tasks.
+2. Download the source from GitHub.
+3. In the source directory use the command ```npm install``` to install the build's components.
+4. To build the application use the command ```gulp build```.  The build must be run from the Visual Studio Command Prompt (2015 community edition used).
+
+I suggest exploring the gulpfile.js for other gulp tasks like test, compile, and package.
