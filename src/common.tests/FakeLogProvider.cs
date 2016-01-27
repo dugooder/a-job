@@ -11,7 +11,7 @@ namespace tests
         Dictionary<string, object> props;
         readonly ITestOutputHelper testOutput;
 
-        public Stack ContextInfo { get;  private set; }
+        public Stack ContextInfo { get; private set; }
         public LogEntry LastLogEntry { get; private set; }
         public int ExceptionCount { get; private set; }
         public bool Errors { get; private set; }
@@ -25,29 +25,27 @@ namespace tests
 
         public Dictionary<string, object> Properties
         {
-            get { return props; }
+            get
+            {
+                return props;
+            }
         }
-        
+
         public object GetPropertyValue(string name, object defaultValue)
         {
-            object result; 
-            if (props.ContainsKey(name))
-            {
-                result = props[name];
-            }
-            else
-            {
-                result =  defaultValue;
-            }
+            object result = props.ContainsKey(name) ? 
+                props[name] :  defaultValue;
+            
             testOutput.WriteLine(
-                "GetPropertyValue(name='{0}', defaultValue='{1}') = result='{2}'", 
+                "GetPropertyValue(name='{0}', defaultValue='{1}') = result='{2}'",
                 name, defaultValue, result);
+
             return result;
         }
 
         public void PopContextInfo()
         {
-            if (ContextInfo == null)
+            if (ContextInfo != null)
             {
                 ContextInfo.Pop();
             }
@@ -89,7 +87,7 @@ namespace tests
             entry.Message = message;
             entry.Exception = ex;
             entry.ContextInfo = this.ContextInfo != null ? this.ContextInfo.Clone() as Stack : new Stack();
-            this.LastLogEntry = entry; 
+            this.LastLogEntry = entry;
 
             if (ex != null)
             {
@@ -107,6 +105,7 @@ namespace tests
             testOutput.WriteLine("Write(logName='{0}', level='{1}', message='{2}', ex='{3}')",
                 logName, level, message, ex);
         }
+
         public class LogEntry
         {
             public Stack ContextInfo;

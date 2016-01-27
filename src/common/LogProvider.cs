@@ -1,7 +1,7 @@
 ﻿using log4net;
 using System;
 using System.Collections.Generic;
-using System.Text;
+
 namespace common
 {
     /// <summary>
@@ -13,7 +13,6 @@ namespace common
     /// </summary>
     internal sealed class LogProvider : ILogProvider
     {
-
         static Dictionary<string, ILog> loggerCache = new Dictionary<string, ILog>();
 
         Dictionary<string, object> props;
@@ -23,7 +22,7 @@ namespace common
             props = new Dictionary<string, object>();
 
             log4net.Config.XmlConfigurator.Configure(); // expects log4net config in EXE app.config
-            
+
             PushContextInfo(string.Empty); // gets rid if (null) in NDC in file}
         }
 
@@ -58,7 +57,7 @@ namespace common
 
             return this;
         }
-        
+
         public void PushContextInfo(string info)
         {
             log4net.NDC.Push(info);
@@ -75,11 +74,21 @@ namespace common
 
             switch (level)
             {
-                case LogLevel.Debug: logger.Debug(message, ex); break;
-                case LogLevel.Error: logger.Error(message, ex); break;
-                case LogLevel.Information: logger.Info(message, ex); break;
-                case LogLevel.Warning: logger.Warn(message, ex); break;
-                default: logger.Info(message, ex); break;
+                case LogLevel.Debug:
+                    logger.Debug(message, ex);
+                    break;
+                case LogLevel.Error:
+                    logger.Error(message, ex);
+                    break;
+                case LogLevel.Information:
+                    logger.Info(message, ex);
+                    break;
+                case LogLevel.Warning:
+                    logger.Warn(message, ex);
+                    break;
+                default:  //  LogLevel.Uknown
+                    logger.Info(message, ex);
+                    break;
             }
 
             Reset();
@@ -88,7 +97,7 @@ namespace common
         private static ILog getLogger(string logName)
         {
             ILog result = null;
-            
+
             if (loggerCache.ContainsKey(logName))
             {
                 result = loggerCache[logName];
@@ -100,6 +109,5 @@ namespace common
             }
             return result;
         }
-
     }
 }

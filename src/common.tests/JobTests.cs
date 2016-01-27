@@ -20,7 +20,7 @@ namespace tests
             kernel.Bind<ICommand>().To<FakeSimpleCommand>();
 
             XDocument jobConfig = System.Xml.Linq.XDocument.Parse(
-               "<job><step name=\"Acommand\" type=\"FakeCmd\"/></job>");
+                "<job><step name=\"Acommand\" type=\"FakeCmd\"/></job>");
 
             testJob = new Job("TestJob", jobConfig, kernel, this.FakeLogger);
         }

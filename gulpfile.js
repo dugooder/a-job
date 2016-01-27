@@ -56,8 +56,9 @@ gulp.task('assemblyInfo', function () {
 
 gulp.task('clean', function () {
     return del([
-        'src/**/bin/**/*', 'src/**/obj/**/*', buildFolder + '*'
-    ]);
+        'src/**/bin/**/*', 
+        'src/**/obj/**/*', 
+        buildFolder + '*'], {force: true});
 });
 
 gulp.task('compile', function () {
@@ -73,9 +74,8 @@ gulp.task('compile', function () {
         }));
 });
 
-
-gulp.task('build-unit-test', function () {
-    return gulp.src([buildFolder + '*.tests.dll'], { read: false })
+gulp.task('test', ['compile'], function () {
+    return gulp.src(['**/bin/**/*.tests.dll'], { read: false })
         .pipe(xunit({
             executable: 'src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe',
             options: {
@@ -86,10 +86,13 @@ gulp.task('build-unit-test', function () {
 });
 
 gulp.task('package', function () {
-    return gulp.src(
-            'src/**/bin/' + 
-            configuration + 
-            '/*.{exe,dll,xml,config}')
+    var baseBinMatch = 'src/**/bin/' + configuration + '/'; 
+    return gulp.src([
+            baseBinMatch + '*.{exe,dll,config}',
+            baseBinMatch + '*_job.xml',
+            '!' + baseBinMatch + '*.tests.*',
+            '!' + baseBinMatch + '*xunit.*',
+            ])
         .pipe(flatten())
         .pipe(gulp.dest(buildFolder));
 });
@@ -100,19 +103,8 @@ gulp.task('build', function(callback) {
               'nuget-restore',
               'assemblyInfo',
               'compile',
+              'test',
               'package',
-              'build-unit-test',
               'info',
               callback);
-});
-
-gulp.task('test', ['compile'], function () {
-    return gulp.src(['**/bin/**/*.tests.dll'], { read: false })
-        .pipe(xunit({
-            executable: 'src/packages/xunit.runner.console.2.1.0/tools/xunit.console.exe',
-            options: {
-                nologo: true,
-                html: buildFolder + 'test_results.html'
-            }
-        }));
 });

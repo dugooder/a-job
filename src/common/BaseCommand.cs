@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using common;
 using Ninject;
 
 namespace common
 {
     public abstract class BaseCommand : ICommand, IDisposable
     {
-        protected readonly ILogProvider log;
-        protected readonly JobContext ctx;
-        
+        protected readonly ILogProvider Log;
+        protected readonly JobContext Context;
+
         [Inject]
-        public BaseCommand(ILogProvider log, JobContext ctx)
+        protected BaseCommand(ILogProvider log, JobContext ctx)
         {
-            this.log = log;
-            this.ctx = ctx;
+            this.Log = log;
+            this.Context = ctx;
         }
-               
+
         public string Name { get; set; }
         public int Result { get; protected set; }
         public bool Successful { get; protected set; }
@@ -29,13 +24,13 @@ namespace common
         {
             try
             {
-                log.PushContextInfo(this.Name);
+                Log.PushContextInfo(this.Name);
 
                 ExecuteImplementation();
 
                 if (!Successful)
                 {
-                    log.WithLogLevel(LogLevel.Error)
+                    Log.WithLogLevel(LogLevel.Error)
                         .WithProperty("Failing_Command", this.Name)
                         .WithProperty("Result_Code", this.Result)
                         .WriteProperties();
@@ -43,14 +38,15 @@ namespace common
             }
             finally
             {
-                log.PopContextInfo();
+                Log.PopContextInfo();
             }
         }
 
         protected abstract void ExecuteImplementation();
 
         #region IDisposable 
-        private bool disposed = false; 
+
+        private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -58,9 +54,9 @@ namespace common
             {
                 if (disposing)
                 {
-                    if (ctx != null)
+                    if (Context != null)
                     {
-                        ctx.Dispose();
+                        Context.Dispose();
                     }
                 }
 
@@ -72,6 +68,7 @@ namespace common
         {
             Dispose(true);
         }
+
         #endregion
     }
 }

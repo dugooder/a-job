@@ -15,14 +15,15 @@ namespace commands
     /// how you want to build the application.  The bottome line is the DLL, its dependencies
     /// and ninject.xml file must be put in the EXE's bin folder. 
     /// </summary>
-
     class HelloWorldCommand : BaseCommand
     {
         public const string ContextKeyCounter = "HelloWorldCommandCount";
 
         [Inject]
-        public HelloWorldCommand(ILogProvider log, JobContext ctx) 
-            : base(log, ctx) { }
+        public HelloWorldCommand(ILogProvider log, JobContext ctx)
+            : base(log, ctx)
+        {
+        }
 
         protected override void ExecuteImplementation()
         {
@@ -30,7 +31,7 @@ namespace commands
 
             sayHello(cnt);
 
-            ctx.Data[ContextKeyCounter] = cnt;
+            Context.Data[ContextKeyCounter] = cnt;
 
             this.Successful = true;
 
@@ -41,20 +42,21 @@ namespace commands
         {
             int cnt = 0;
 
-            if (ctx.Data.ContainsKey(ContextKeyCounter))
+            if (Context.Data.ContainsKey(ContextKeyCounter))
             {
-                cnt = (int)ctx.Data[ContextKeyCounter];
+                cnt = (int) Context.Data[ContextKeyCounter];
             }
 
             return cnt;
-
         }
+
         private void sayHello(int cnt)
         {
-            string name = 
-                JobStep.Configuration.Element("name").Value;
+            var config = JobStep.Configuration;
+            var nameElement = config != null ? config.Element("name") : null;
+            string name = nameElement != null ? nameElement.Value : "Missing 'name' element in configuration";
 
-            log.WithLogLevel(LogLevel.Information)
+            Log.WithLogLevel(LogLevel.Information)
                 .WriteMessage("Hello {0} ({1})", name, cnt);
         }
     }

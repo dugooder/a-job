@@ -11,14 +11,14 @@ namespace common
     /// </summary>
     public static class LogProviderExtensions
     {
-        public readonly static string PropertyKeyLogLevel = "LogLevel";
+        public static readonly string PropertyKeyLogLevel = "LogLevel";
         public const string PropertyKeyLogName = "LogName";
 
         const string KeyValuePairFormat = "{0}:{1};";
 
         public static ILogProvider WithLogLevel(this ILogProvider provider, LogLevel level)
         {
-            provider.WithProperty(PropertyKeyLogLevel, level); 
+            provider.WithProperty(PropertyKeyLogLevel, level);
             return provider;
         }
 
@@ -52,17 +52,17 @@ namespace common
 
         private static string getLogName(ILogProvider provider)
         {
-            return (string)provider.GetPropertyValue(
+            return (string) provider.GetPropertyValue(
                 PropertyKeyLogName, AppDomain.CurrentDomain.FriendlyName);
         }
 
         private static LogLevel getLogLevel(ILogProvider provider)
         {
-            return (LogLevel)provider.GetPropertyValue(
+            return (LogLevel) provider.GetPropertyValue(
                 PropertyKeyLogLevel, LogLevel.Unknown);
         }
 
-        private static string  convertPropertiestoString(ILogProvider provider)
+        private static string convertPropertiestoString(ILogProvider provider)
         {
             StringBuilder result = new StringBuilder();
 

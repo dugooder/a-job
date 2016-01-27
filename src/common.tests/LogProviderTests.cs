@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 using Xunit.Abstractions;
-namespace tests.common
+
+namespace tests
 {
     [Collection("Common")]
     public class LogProviderTests : BaseTest
@@ -15,10 +16,10 @@ namespace tests.common
         {
             logger = Kernel.Get<ILogProvider>();
         }
-  
+
         [Fact()]
         public void PropertiesTest()
-        {   
+        {
             logger.WithProperty("color", "red").WithProperty("size", "large");
             Dictionary<string, object> allProps = logger.Properties;
 
@@ -26,7 +27,7 @@ namespace tests.common
             Assert.Equal(allProps["color"].ToString(), "red");
             Assert.Equal(allProps["size"].ToString(), "large");
         }
-        
+
         [Fact()]
         public void ResetTest()
         {
@@ -36,7 +37,7 @@ namespace tests.common
 
             Assert.False(logger.Properties.ContainsKey("color"));
         }
-        
+
         [Fact()]
         public void WithPropertyTest()
         {
@@ -46,10 +47,9 @@ namespace tests.common
 
             Assert.Equal("red", logger.Properties["color"]);
         }
-        
+
         // We are not testing log4net just our code so the below are being developed
         // public void PushContextInfoTest() {} 
         // public void PopContextInfoTest() { }
-
     }
 }

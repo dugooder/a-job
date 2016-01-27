@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using Ninject;
+
 namespace common
 {
     /// <summary>
-    ///  The object common to all the commands
+    ///  The context object common to all the commands. Used to pass data between commands.
     /// </summary>
     public sealed class JobContext : IDisposable
-    {   
+    {
         Dictionary<string, object> Data_;
         readonly ILogProvider log;
 
@@ -30,7 +31,8 @@ namespace common
         }
 
         #region IDisposable
-        private bool disposed = false; 
+
+        private bool disposed = false;
 
         void Dispose(bool disposing)
         {
@@ -45,12 +47,13 @@ namespace common
                         {
                             if (ie.Current.Value != null && ie.Current.Value is IDisposable)
                             {
-                                try {
+                                try
+                                {
                                     (ie.Current.Value as IDisposable).Dispose();
                                 }
                                 catch (Exception ex)
                                 {
-                                    log.WithLogLevel(LogLevel.Warning).WriteGeneralException(ex);     
+                                    log.WithLogLevel(LogLevel.Warning).WriteGeneralException(ex);
                                 }
                             }
                         }
@@ -67,6 +70,7 @@ namespace common
         {
             Dispose(true);
         }
+
         #endregion
     }
 }

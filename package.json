@@ -21,5 +21,9 @@
     "gulp-xunit-runner": "^0.1.1",
     "request": "^2.67.0",
     "yargs": "^3.32.0"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "test": "gulp test"
   }
 }

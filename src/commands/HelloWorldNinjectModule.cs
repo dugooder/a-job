@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace commands.helloworldcommand
 {
-   public class HelloWorldNinjectModule : Ninject.Modules.NinjectModule
+    public class HelloWorldNinjectModule : Ninject.Modules.NinjectModule
     {
         public override void Load()
         {

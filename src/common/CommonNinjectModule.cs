@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace common
+﻿namespace common
 {
-    public class CommonNinjectModule : Ninject.Modules.NinjectModule
+    public sealed class CommonNinjectModule : Ninject.Modules.NinjectModule
     {
         public override void Load()
         {
@@ -14,5 +8,4 @@ namespace common
             Bind<JobContext>().To<JobContext>().InSingletonScope();
         }
     }
-
 }

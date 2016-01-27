@@ -5,10 +5,14 @@ namespace common
 {
     public enum LogLevel
     {
-        Unknown, Debug, Information, Warning, Error
+        Unknown,
+        Debug,
+        Information,
+        Warning,
+        Error
     }
 
-    public interface ILogProvider 
+    public interface ILogProvider
     {
         Dictionary<string, object> Properties { get; }
 
@@ -23,6 +27,5 @@ namespace common
         void PopContextInfo();
 
         void Write(string logName, LogLevel level, object message, Exception ex);
-
     }
 }

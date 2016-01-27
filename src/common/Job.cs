@@ -1,18 +1,19 @@
 ﻿using System;
-using Ninject;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
-
+using Ninject;
 
 namespace common
 {
     public sealed class Job : ICommand
     {
-        const string JobConfigurationFileExtension = "_job.xml";
-        
-        readonly ILogProvider log;
-        readonly IKernel kernel;  // used to load the commands needed for this job
+        public const string JobConfigurationFileExtension = "_job.xml";
+        public const string NinjectDllsToLoadMask = "ajob.*.dll";
+
+        private readonly IKernel kernel; // used to load the commands needed for this job
+        private readonly ILogProvider log;
 
         public List<JobStep> Steps { get; private set; }
         public string Name { get; set; }
@@ -23,33 +24,33 @@ namespace common
         {
             this.log = log;
             this.kernel = kernel;
-            this.Name = jobName;
+            Name = jobName;
             loadSteps(jobConfig);
-            this.Result = 0;
-            this.Successful = true;
+            Result = 0;
+            Successful = true;
         }
-        
+
         public void Execute()
         {
-            this.Successful = true;
-            this.Result = 0;
+            Successful = true;
+            Result = 0;
             try
             {
-                log.PushContextInfo(this.Name);
+                log.PushContextInfo(Name);
 
-                log.WithLogLevel(LogLevel.Information).WriteMessage("Starting {0}", this.Name);
+                log.WithLogLevel(LogLevel.Information).WriteMessage("Starting {0}", Name);
 
-                foreach (JobStep step in this.Steps)
+                foreach (var step in Steps)
                 {
-                    using (BaseCommand cmd = kernel.Get<ICommand>(step.TypeName) as BaseCommand)
+                    using (var cmd = kernel.Get<ICommand>(step.TypeName) as BaseCommand)
                     {
                         cmd.JobStep = step;
                         cmd.Name = step.Name;
                         cmd.Execute();
                         if (!cmd.Successful)
                         {
-                            this.Successful = false;
-                            this.Result = cmd.Result;
+                            Successful = false;
+                            Result = cmd.Result;
                             break;
                         }
                     }
@@ -57,30 +58,30 @@ namespace common
             }
             finally
             {
-                log.WithLogLevel(LogLevel.Information).WriteMessage("{0} ended.", this.Name);
+                log.WithLogLevel(LogLevel.Information).WriteMessage("{0} ended.", Name);
                 log.PopContextInfo();
             }
         }
 
         public static int Run(string jobName)
         {
-            int result = 0;
-            
-            using (Ninject.StandardKernel kernel = 
-                new Ninject.StandardKernel( ))
-            {
-                kernel.Load("*.dll");  
+            var result = 0;
 
-                System.Diagnostics.Debug.Assert(kernel.GetModules().Count() > 0);
-                
-                ILogProvider log = kernel.Get<ILogProvider>();
+            using (var kernel =
+                new StandardKernel())
+            {
+                kernel.Load(NinjectDllsToLoadMask);
+
+                Debug.Assert(kernel.GetModules().Any());
+
+                var log = kernel.Get<ILogProvider>();
 
                 try
                 {
-                    XDocument jobConfig =
+                    var jobConfig =
                         XDocument.Load(jobName + JobConfigurationFileExtension);
 
-                    Job aJob = new Job(jobName, jobConfig, kernel, log);
+                    var aJob = new Job(jobName, jobConfig, kernel, log);
 
                     aJob.Execute();
 
@@ -99,23 +100,22 @@ namespace common
 
                     result = -1;
                 }
-
-                return result;
             }
+
+            return result;
         }
 
         private void loadSteps(XDocument config)
         {
-            this.Steps = (from x in config.Descendants("step")
-                          select new JobStep()
-                          {
-                              Name = x.Attribute("name").Value,
-                              TypeName = x.Attribute("type").Value,
-                              Configuration = x
-                          }).ToList();
+            Steps = (from x in config.Descendants("step")
+                select new JobStep
+                {
+                    Name = x.Attribute("name").Value,
+                    TypeName = x.Attribute("type").Value,
+                    Configuration = x
+                }).ToList();
 
-            log.WithLogLevel(LogLevel.Information).WriteMessage("Job {0} configured", this.Name);
+            log.WithLogLevel(LogLevel.Information).WriteMessage("Job {0} configured", Name);
         }
     }
 }
-

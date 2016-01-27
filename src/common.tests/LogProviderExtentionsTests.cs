@@ -2,17 +2,19 @@
 using Xunit;
 using Xunit.Abstractions;
 using common;
+
 namespace tests
 {
-    public class LogProviderExtentionsTests : BaseTest 
+    public class LogProviderExtentionsTests : BaseTest
     {
-        public LogProviderExtentionsTests(ITestOutputHelper output) : base(output) { }
+        public LogProviderExtentionsTests(ITestOutputHelper output) 
+            : base(output) { }
 
         [Fact]
         public void LogLevelTest()
         {
             this.FakeLogger.WithLogLevel(LogLevel.Debug);
-            LogLevel actual = (LogLevel)this.FakeLogger.Properties[LogProviderExtensions.PropertyKeyLogLevel];
+            LogLevel actual = (LogLevel) this.FakeLogger.Properties[LogProviderExtensions.PropertyKeyLogLevel];
             Assert.Equal(LogLevel.Debug, actual);
         }
 
@@ -47,7 +49,7 @@ namespace tests
         {
             string msg = "Dogs rule! Cats drool!";
             string fmt = "{0} rule! {1} drool!";
-            this.FakeLogger.WithLogLevel(LogLevel.Information).WithLogger("Obvious").WriteMessage(fmt, "Dogs" , "Cats");
+            this.FakeLogger.WithLogLevel(LogLevel.Information).WithLogger("Obvious").WriteMessage(fmt, "Dogs", "Cats");
             Assert.Equal(msg, this.FakeLogger.LastLogEntry.Message);
             Assert.Equal(LogLevel.Information, this.FakeLogger.LastLogEntry.LogLevel);
             Assert.Equal("Obvious", this.FakeLogger.LastLogEntry.LogName);

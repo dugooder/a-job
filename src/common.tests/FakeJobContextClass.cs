@@ -8,7 +8,9 @@ namespace tests
         {
             this.Disposed = false;
         }
+
         public bool Disposed { get; set; }
+
         public void Dispose()
         {
             this.Disposed = true;
