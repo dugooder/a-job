@@ -37,7 +37,7 @@ The application uses the below components.
 ```bat 
 npm install
 ```
-4. To build the application. 
+4. To build the application.  The build must be run from the Visual Studio Command Prompt (2015 Community version was used). 
 ```bat
 gulp build 
 ```
