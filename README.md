@@ -3,9 +3,10 @@
 ##Usage
 Use this application as a template for creating a job type application.  Use a scheduler to execute the application.
 
-##Features 
+##Design 
 Commands (plug-ins) are tied together with a job XML configuration file. 
 
+##Components 
 The application uses the below components. 
 
 * [Ninject](http://www.ninject.org/) - to load the plugins.
