@@ -7,13 +7,13 @@ namespace commands
     /// Hello World Command project is an example of a command project.
     /// 1. A command should be in its own project 
     /// 2. A command should have its own test project
-    /// 3. A command needs to inhert form BaseCommand
+    /// 3. A command needs to inhert from BaseCommand
     /// 4. A command project needs to include a ninject module class 
     ///    to load the command into the Ioc container.
     ///    
-    /// A command project could be referenced by the supervisor or not depending on 
-    /// how you want to build the application.  The bottome line is the DLL, its dependencies
-    /// and ninject.xml file must be put in the EXE's bin folder. 
+    /// Depending on how you want to adjust the build a command project could be referenced 
+    /// by the supervisor applicaiton. The bottome line is the DLL and dependencies
+    /// file must be put in the EXE's bin folder. 
     /// </summary>
     class HelloWorldCommand : BaseCommand
     {
