@@ -62,6 +62,9 @@ gulp.task('clean', function () {
 });
 
 gulp.task('compile', function () {
+    if (!fs.existsSync(buildFolder)){
+        fs.mkdirSync(buildFolder);
+    }
     return gulp
         .src('**/*.sln')
         .pipe(msbuild({
