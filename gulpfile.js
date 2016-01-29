@@ -66,7 +66,7 @@ gulp.task('compile', function () {
         fs.mkdirSync(buildFolder);
     }
     return gulp
-        .src('**/*.sln')
+        .src('**/' +  appPackage.name + '.sln')
         .pipe(msbuild({
             toolsVersion: 14.0,
             targets: ['Rebuild'],

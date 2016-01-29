@@ -6,9 +6,13 @@
   "company": "Chaotic Good",
   "product": "ajob template project",
   "copyright": "None",
-  "license": "None",
+  "license": "MIT",
   "trademark": "Chaotic Good",
   "culture": "",
+    "repository": {
+    "type": "git",
+    "url": "https://github.com/dugooder/a-job.git"
+  },
   "devDependencies": {
     "del": "^2.2.0",
     "fs": "0.0.2",
