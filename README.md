@@ -4,7 +4,7 @@
 
 ####What is it?
 ---
-This project is a template to create a jobs for your system using C#.
+This project is a template to create jobs for your system using C#.
 
 ####Documentation
 ---
