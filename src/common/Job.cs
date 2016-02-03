@@ -34,11 +34,13 @@ namespace common
         {
             Successful = true;
             Result = 0;
+
             try
             {
                 log.PushContextInfo(Name);
 
-                log.WithLogLevel(LogLevel.Information).WriteMessage("Starting {0}", Name);
+                log.WithLogLevel(LogLevel.Information)
+                    .WriteMessage("Starting {0}", Name);
 
                 foreach (var step in Steps)
                 {
@@ -58,10 +60,13 @@ namespace common
             }
             finally
             {
-                log.WithLogLevel(LogLevel.Information).WriteMessage("{0} ended.", Name);
+                log.WithLogLevel(LogLevel.Information)
+                    .WriteMessage("{0} ended.", Name);
+
                 log.PopContextInfo();
             }
         }
+        
 
         public static int Run(string jobName)
         {

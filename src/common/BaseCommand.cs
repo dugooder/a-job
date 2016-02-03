@@ -22,10 +22,8 @@ namespace common
 
         public void Execute()
         {
-            try
+            using (IDisposable logCtx = Log.PushContextInfo(this.Name))
             {
-                Log.PushContextInfo(this.Name);
-
                 ExecuteImplementation();
 
                 if (!Successful)
@@ -35,10 +33,6 @@ namespace common
                         .WithProperty("Result_Code", this.Result)
                         .WriteProperties();
                 }
-            }
-            finally
-            {
-                Log.PopContextInfo();
             }
         }
 

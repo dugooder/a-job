@@ -22,8 +22,6 @@ namespace common
             props = new Dictionary<string, object>();
 
             log4net.Config.XmlConfigurator.Configure(); // expects log4net config in EXE app.config
-
-            PushContextInfo(string.Empty); // gets rid if (null) in NDC in file}
         }
 
         public Dictionary<string, object> Properties
@@ -58,14 +56,19 @@ namespace common
             return this;
         }
 
-        public void PushContextInfo(string info)
+        public IDisposable PushContextInfo(string info)
         {
-            log4net.NDC.Push(info);
+           return log4net.NDC.Push(info);
         }
 
-        public void PopContextInfo()
+        public string PopContextInfo()
         {
-            log4net.NDC.Pop();
+            return log4net.NDC.Pop();
+        }
+
+        public bool HasContextInfo()
+        {
+            return log4net.NDC.Depth > 0;
         }
 
         public void Write(string logName, LogLevel level, object message, Exception ex)

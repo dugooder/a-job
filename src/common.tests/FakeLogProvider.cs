@@ -43,23 +43,37 @@ namespace tests
             return result;
         }
 
-        public void PopContextInfo()
+        public string PopContextInfo()
         {
+            string result = null;
+
             if (ContextInfo != null)
             {
-                ContextInfo.Pop();
+                result = ContextInfo.Pop() as string;
             }
+
             testOutput.WriteLine("PopContextInfo()");
+
+            return result;
         }
 
-        public void PushContextInfo(string info)
+        public IDisposable PushContextInfo(string info)
         {
             if (ContextInfo == null)
             {
                 ContextInfo = new Stack();
             }
+
             ContextInfo.Push(info);
+
             testOutput.WriteLine("PushContextInfo(info='{0};)", info);
+
+            return new FakeLoggingAutoPopStackFrame();
+        }
+
+        public bool HasContextInfo()
+        {
+            return ContextInfo.Count > 0;
         }
 
         public void Reset()
@@ -113,6 +127,14 @@ namespace tests
             public LogLevel LogLevel;
             public object Message;
             public Exception Exception;
+        }
+    }
+
+    public class FakeLoggingAutoPopStackFrame : IDisposable
+    {
+        public void Dispose()
+        {
+            // do nothing
         }
     }
 }

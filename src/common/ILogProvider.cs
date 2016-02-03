@@ -22,9 +22,14 @@ namespace common
 
         void Reset();
 
-        void PushContextInfo(string info);
+        // This is not a dispoable object in the sense that it must be called
+        //  it only removed the info from the stack.  The return value 
+        //  can be ignored.
+        IDisposable PushContextInfo(string info);
 
-        void PopContextInfo();
+        string PopContextInfo();
+
+        bool HasContextInfo();
 
         void Write(string logName, LogLevel level, object message, Exception ex);
     }
