@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("ajob Template")]
 [assembly: AssemblyDescription("Template solution for making a schedule job application for a domain")]
-[assembly: AssemblyConfiguration("Debug")]
+[assembly: AssemblyConfiguration("Release")]
 [assembly: AssemblyCompany("Chaotic Good")]
 [assembly: AssemblyProduct("ajob template project")]
 [assembly: AssemblyCopyright("Chaotic Good 2016")]
